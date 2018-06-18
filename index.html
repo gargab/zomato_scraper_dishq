@@ -22,18 +22,6 @@
     <div id="map"></div>
     <h2>Reviews</h2>
     <div id="review">
-      <!-- <div class="desc">
-       Raju: fhsgudhjdsio duwhgduwq
-      </div>
-      <div class="desc">
-       Raju: fhsgudhjdsio duwhgduwq
-      </div>
-      <div class="desc">
-       Raju: fhsgudhjdsio duwhgduwq
-      </div>
-      <div class="desc">
-       Raju: fhsgudhjdsio duwhgduwq
-      </div> -->
     </div>
     <script>
 
@@ -76,6 +64,7 @@ function initMap() {
                      });
                  })(marker, data);
 
+                  //Attach Click event to the marker
                  (function (marker, data) {
                      google.maps.event.addListener(marker, "click", function (e) {
                        $("#review").empty();
@@ -96,6 +85,7 @@ function initMap() {
    });
  }
     </script>
+    <!-- Call google maps api with API key -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-E6siDxb1NnGFsu8XeurrncQIzXtjhqY&callback=initMap">
     </script>
