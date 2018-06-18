@@ -8,18 +8,18 @@ import requests
 
 def zomato_scrape():
 
-    //Everytime the scraper runs, it deletes all the previous entries and then feteches data
+    #Everytime the scraper runs, it deletes all the previous entries and then feteches data
     restaurant.objects.all().delete()
     review.objects.all().delete()
 
-    //Headers mimic web browser kind of call
+    #Headers mimic web browser kind of call
     zomato='https://www.zomato.com/bangalore/restaurants?page=1'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'}
     response = requests.get(zomato,headers=headers)
     content = response.content
     soup = BeautifulSoup(content,"html.parser")
 
-    //Use parse a particular div to get the total number of pages
+    #Use parse a particular div to get the total number of pages
     pages = soup.find_all("div",attrs={"class": "col-l-4 mtop pagination-number"})
     total_pages = int(pages[0]['aria-label'].split('of ')[1])
     print total_pages
@@ -30,10 +30,10 @@ def zomato_scrape():
         content = response.content
         soup = BeautifulSoup(content,"html.parser")
 
-        //top_rest finds all the cards of restaurants
+        #top_rest finds all the cards of restaurants
         top_rest = soup.find_all("div",attrs={"class": "card search-snippet-card search-card "})
 
-        //Finds the script that contains Lat and Long values of restaurants
+        #Finds the script that contains Lat and Long values of restaurants
         script = soup.find_all("script",attrs={"type": "text/javascript"})[8]
         text_script = script.text.strip().split('zomato.DailyMenuMap.mapData =')[1]
         print zomato
@@ -42,7 +42,7 @@ def zomato_scrape():
         i = 1
         for tr in top_rest:
             dataframe ={}
-            //specific places to find particular values
+            #specific places to find particular values
             dataframe["name"] = (tr.find("a",attrs={"data-result-type": "ResCard_Name"})).text.strip().replace('\n', ' ').encode('unicode-escape')
             dataframe["url"] = (tr.find("a",attrs={"data-result-type": "ResCard_Name"}))['href'].encode('unicode-escape')
             dataframe["address"] = (tr.find("div",attrs={"class":"col-m-16 search-result-address grey-text nowrap ln22"})).text.replace('\n', ' ').encode('unicode-escape')
@@ -52,7 +52,7 @@ def zomato_scrape():
             i=i+1
             list_rest.append(dataframe)
 
-        //Save to the model
+        #Save to the model
         serial_rest = restaurantSerializer(data=list_rest,many=True)
 
         if serial_rest.is_valid():
@@ -60,7 +60,7 @@ def zomato_scrape():
         else:
             print serial_rest.errors
 
-        //Iterate through all restaurant links and find reviews
+        #Iterate through all restaurant links and find reviews
         for rest in list_rest:
             all_reviews=[]
             response = requests.get(rest['url'],headers=headers)

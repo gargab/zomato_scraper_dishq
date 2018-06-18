@@ -20,7 +20,7 @@ class restaurantView(ModelViewSet):
 		serialized_query=restaurantSerializer(query,many=True)##Serialize the data to return as json
 		return Response(serialized_query.data)
 
-	//Serve data to front-end
+	#Serve data to front-end
 	@list_route(methods=['get'])
 	def get_all(self,request):
 		query=restaurant.objects.values()

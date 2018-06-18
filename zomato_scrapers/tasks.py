@@ -10,7 +10,7 @@ import os
 CWD=os.getcwd()
 cdir=CWD
 
-//Trigger the task
+#Trigger the task
 @shared_task
 def scrape_zomato():
     print "Task Init"

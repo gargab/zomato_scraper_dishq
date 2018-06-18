@@ -64,3 +64,4 @@ Finally to load front-end just open index.html on browser.<br />
 # Approach:
 The project follows Rest framework. This approach was followed basically to make flexible microservices which can later on serve various platforms.<br />
 The scraper is deployed using celery to design a queuing and scheduling system for regular updates from the websites. <br />
+The Models contain separate tables for Restaurants and Reviews for better structure. These are merged when the data is served to the front-end. <br />
