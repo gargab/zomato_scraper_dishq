@@ -1,18 +1,18 @@
 # Zomato Scraper
 
-This is a celery based Django app.
-You need to have the following on your system before you can run the app :
-Python2
-Postgres
-RabbitMQ
-Anaconda
+This is a celery based Django app.<br />
+You need to have the following on your system before you can run the app :<br />
+Python2<br />
+Postgres<br />
+RabbitMQ<br />
+Anaconda<br />
 
-1. Once these are installed:
-i) setup python2 based virtual environment in Anaconda
-ii) conda activate 'Virtual_env_name'
+1. Once these are installed:<br />
+i) setup python2 based virtual environment in Anaconda<br />
+ii) conda activate 'Virtual_env_name'<br />
 
-2. Create a Database in Postgres under a particular user
-i) in settings.py file in zomato_main edit the database config:
+2. Create a Database in Postgres under a particular user<br />
+i) in settings.py file in zomato_main edit the database config:<br />
 
 DATABASES = {  ####Give your own db configurations
     'default': {#        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.#        'NAME': #'db_calypso',                      # Or path to database file if using sqlite3.
@@ -25,32 +25,32 @@ DATABASES = {  ####Give your own db configurations
     }
 }
 
-ii) In root directory run:
-python manage.py shell
-from django.contrib.auth.models import User;
-User.objects.create_superuser('[USER]', '[MAIL]', '[PASS]');
+ii) In root directory run:<br />
+python manage.py shell<br />
+from django.contrib.auth.models import User;<br />
+User.objects.create_superuser('[USER]', '[MAIL]', '[PASS]');<br />
 
-3. Start RabbitMQ
+3. Start RabbitMQ<br />
 
-As Celery uses a queuing and worker based system, you need to send the task to the queue
+As Celery uses a queuing and worker based system, you need to send the task to the queue<br />
 
-4. First start the rest server using command:
-gunicorn zomato_main.wsgi --workers 2 --timeout 10000
+4. First start the rest server using command:<br />
+gunicorn zomato_main.wsgi --workers 2 --timeout 10000<br />
 
-At localhost:prtnumber/admin
-Go to periodic tasks
-Press Add Periodic Task on Top right
-Name the task
-Add the Task from the list
-Give an Interval (When should the scraper run periodically)
-If you see no interval click on plus sign and add one
+At localhost:prtnumber/admin<br />
+Go to periodic tasks<br />
+Press Add Periodic Task on Top right<br />
+Name the task<br />
+Add the Task from the list<br />
+Give an Interval (When should the scraper run periodically)<br />
+If you see no interval click on plus sign and add one<br />
 
 
-5. Now start the Beat using (in new terminal)
-celery -A zomato_main beat -l info -S django
+5. Now start the Beat using (in new terminal)<br />
+celery -A zomato_main beat -l info -S django<br />
 
-6. Start worker using (in 3rd terminal)
-celery worker -A zomato_main --loglevel=DEBUG
+6. Start worker using (in 3rd terminal)<br />
+celery worker -A zomato_main --loglevel=DEBUG<br />
 
 P.S. - If you want to see the scraper run immediately give a time period of 10 sec. Once you see in beat that task has been sent to queue, stop beat so that it sends no new tasks to the queue. You can see the task running in worker.
 
