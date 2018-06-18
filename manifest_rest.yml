@@ -1,0 +1,9 @@
+---
+applications:
+- name: zomato_main
+  memory: 512MB
+  disk_quota: 512MB
+  command: bash ./run.sh
+  buildpack: https://github.com/cloudfoundry/python-buildpack
+services:
+  - banglarabbit

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+       h2{
+        margin-bottom: 10px;
+       }
+       .desc{
+         margin-bottom: 10px;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>DISHQ project</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <h2>Reviews</h2>
+    <div id="review">
+      <!-- <div class="desc">
+       Raju: fhsgudhjdsio duwhgduwq
+      </div>
+      <div class="desc">
+       Raju: fhsgudhjdsio duwhgduwq
+      </div>
+      <div class="desc">
+       Raju: fhsgudhjdsio duwhgduwq
+      </div>
+      <div class="desc">
+       Raju: fhsgudhjdsio duwhgduwq
+      </div> -->
+    </div>
+    <script>
+
+// Initialize and add the map
+function initMap() {
+
+
+   var urltoget = "http://localhost:4567/scrapers/zomato/get_all/";
+
+   $.ajax({
+     url: urltoget,
+     type: "GET",
+     success: function(result){
+       var markers = result;
+       var mapOptions = {
+                      center: new google.maps.LatLng(markers[0].lat, markers[0].long),
+                      zoom: 17,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                  };
+
+       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+       var infoWindow = new google.maps.InfoWindow();
+
+       for (var i = 0; i < markers.length; i++) {
+                 var data = markers[i];
+                 var myLatlng = new google.maps.LatLng(data.lat, data.long);
+                 var marker = new google.maps.Marker({
+                     position: myLatlng,
+                     map: map,
+                     title: data.name
+                 });
+
+                 //Attach click event to the marker.
+                 (function (marker, data) {
+                     google.maps.event.addListener(marker, "mouseover", function (e) {
+                         //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                         infoWindow.setContent("<div style = 'width:300px;min-height:70px'> <b>Name: </b>" + data.name + " <br> <b>Address: </b>"+  data.address + "<br> <b>Url: </b> <a target='_blank' href='" +data.url + "'>"+ data.url +"</a> <br><b>Rating: </b>" + data.rating +  "</div>");
+                         infoWindow.open(map, marker);
+                     });
+                 })(marker, data);
+
+                 (function (marker, data) {
+                     google.maps.event.addListener(marker, "click", function (e) {
+                       $("#review").empty();
+
+                            var rev = '';
+                            $.each(data.reviews, function(i,item){
+                              rev += "<div class='desc'> <b>" + data.reviews[i].cust_name+ "</b>: " + data.reviews[i].content + "</div>"
+                            });
+
+                            $("#review").append(rev);
+                     });
+                 })(marker, data);
+        }
+     },
+     error: function(error){
+       console.log("some error occured");
+     },
+   });
+ }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-E6siDxb1NnGFsu8XeurrncQIzXtjhqY&callback=initMap">
+    </script>
+  </body>
+</html>

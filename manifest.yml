@@ -1,0 +1,12 @@
+---
+applications:
+- name: bangla_clock
+  memory: 512MB
+  disk_quota: 1G
+  no-route: true
+  command: celery -A zomato_main beat -l info -S django
+  buildpacks:
+        - https://github.com/cloudfoundry/python-buildpack
+        - https://github.com/cloudfoundry/java_buildpack
+  services:
+  - banglarabbit
