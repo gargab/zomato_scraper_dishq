@@ -35,7 +35,7 @@ User.objects.create_superuser('[USER]', '[MAIL]', '[PASS]');<br />
 As Celery uses a queuing and worker based system, you need to send the task to the queue<br />
 
 4. First start the rest server using command:<br />
-gunicorn zomato_main.wsgi --workers 2 --timeout 10000<br />
+gunicorn zomato_main.wsgi --workers 2 --timeout 10000 --bind 0.0.0.0:8000<br />
 
 At localhost:prtnumber/admin<br />
 Go to periodic tasks<br />
